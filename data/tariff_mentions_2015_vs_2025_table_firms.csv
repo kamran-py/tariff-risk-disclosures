@@ -1,0 +1,17 @@
+ticker,company_name,filing_date_2015,mentions_2015,terms_2015,risk_words_2015,filing_date_2025,mentions_2025,change_2015_to_2025,terms_2025
+AAPL,Apple Inc.,2015-10-28,3,tariffs; duties,7800,2025-10-31,11,8,trade restrictions; tariffs
+AMD,Advanced Micro Devices Inc.,2015-02-19,3,export restrictions; tariffs,12195,2025-02-05,8,5,export restrictions; tariffs
+AMRK,A-Mark Precious Metals Inc.,2015-09-24,0,,6522,2025-09-11,20,20,retaliatory tariffs; trade restrictions; liberation day; trade war; tariffs; tariff
+DE,Deere & Co.,2015-12-18,5,trade restrictions; trade barriers; protectionist; tariffs,4681,2025-12-18,19,14,retaliatory tariffs; trade restrictions; trade barriers; tariffs; tariff
+HD,Home Depot Inc.,2015-03-26,4,trade restrictions; tariffs,4303,2025-03-21,11,7,retaliatory tariffs; trade restrictions; tariffs
+HON,Honeywell International Inc.,2015-02-13,1,trade restrictions,2939,2025-02-14,13,12,retaliatory tariffs; trade restrictions; trade barriers; tariffs; duties
+HPE,Hewlett Packard Enterprise Co.,2015-12-17,0,,15452,2025-12-18,20,20,export restrictions; trade restrictions; tariffs; tariff
+HPQ,HP Inc.,2015-12-16,0,,12446,2025-12-10,22,22,import restrictions; trade restrictions; tariffs; tariff
+INTC,Intel Corp.,2015-02-13,0,,5798,2025-01-31,12,12,export restrictions; trade restrictions; trade barriers; protectionism; protectionist; tariffs
+JCI,Johnson Controls International plc,2015-11-13,2,export restrictions; duties,13009,2025-11-14,17,15,trade restrictions; protectionist; tariffs; duties
+LOW,Lowe's Companies Inc.,2015-03-31,2,trade restrictions; tariffs,3301,2025-03-24,11,9,trade restrictions; tariffs; duties; tariff
+LULU,Lululemon Athletica Inc.,2015-03-26,1,duties,9712,2025-03-27,19,18,trade restrictions; tariffs; duties; tariff
+NKE,Nike Inc.,2015-07-23,7,import duties; tariffs; duties,8939,2025-07-17,25,18,trade restrictions; import duties; protectionism; protectionist; tariffs; duties; tariff
+NVDA,NVIDIA Corp.,2015-03-12,0,,9220,2025-02-26,15,15,export restrictions; trade restrictions; trade barriers; import duties; tariffs
+QCOM,Qualcomm Inc.,2015-11-04,0,,10428,2025-11-05,11,11,trade restrictions; trade barriers; tariffs; duties
+SWK,Stanley Black & Decker Inc.,2015-02-19,4,tariffs; duties,6256,2025-02-18,14,10,retaliatory tariffs; trade restrictions; section 301; tariffs; duties
