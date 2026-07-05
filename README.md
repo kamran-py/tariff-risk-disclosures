@@ -1,17 +1,27 @@
 # Tariff Risk Disclosure Dataset
 
-This project builds a dataset of 10-K `Item 1A. Risk Factors` disclosure for trade-exposed public firms, focused on tariff-related language from 2022 through 2025.
+This repository is an exploratory EDGAR pipeline for collecting 10-K `Item 1A.
+Risk Factors` disclosure from trade-exposed public firms and identifying
+tariff-related language from 2022 through 2025.
 
-It uses SEC EDGAR public endpoints:
+For the cleaner balanced report-year panel, see
+`kamran-py/tariff-risk-disclosures-report-year-panel`.
+
+## Data Sources
+
+The pipeline uses SEC EDGAR public endpoints:
 
 - Company ticker to CIK lookup: `https://www.sec.gov/files/company_tickers.json`
 - Company submissions history: `https://data.sec.gov/submissions/CIK##########.json`
 - Filing documents from `https://www.sec.gov/Archives/edgar/data/...`
 - SEC full-text search for supplemental 2025 10-K hits: `https://efts.sec.gov/LATEST/search-index`
 
-The pipeline starts from a fixed firm universe, so it uses the company submissions endpoint to enumerate each firm's 10-Ks directly. It also runs a supplemental SEC-wide full-text search for 2025 10-Ks that may mention the April 2, 2025 "Liberation Day" tariff announcement.
+The pipeline starts from a fixed firm universe and uses the company submissions
+endpoint to enumerate each firm's 10-Ks directly. It can also run a supplemental
+SEC-wide full-text search for 2025 10-Ks that may mention the April 2, 2025
+"Liberation Day" tariff announcement.
 
-SEC access notes:
+SEC access rules:
 
 - Set a descriptive `User-Agent` with contact information.
 - Keep automated requests at or below 10 requests/second. The script defaults to 8 requests/second.
@@ -20,7 +30,7 @@ SEC access notes:
 ## Quick Start
 
 ```powershell
-$env:SEC_USER_AGENT = "TariffRiskStudy/0.1 your.name@example.com"
+$env:SEC_USER_AGENT = "TariffRiskStudy/0.1 contact@example.com"
 python scripts/build_tariff_risk_dataset.py
 ```
 
@@ -46,9 +56,13 @@ python scripts/build_tariff_risk_dataset.py --date-basis report --output data/ri
 python scripts/build_tariff_risk_dataset.py --no-include-sec-search
 ```
 
-## Dataset Fields
+## Output
 
-The CSV includes firm metadata, SEC filing metadata, extracted full Item 1A text, word and character counts, tariff-term hit counts, matched terms, and short tariff-related excerpts. Analyze all rows together as one dataset. The `sample_source`, `sec_search_query`, and `sec_search_display_name` fields are provenance/audit metadata only, not analytical grouping variables.
+The CSV includes firm metadata, SEC filing metadata, extracted full Item 1A
+text, word and character counts, tariff-term hit counts, matched terms, and
+short tariff-related excerpts. Analyze all rows together as one dataset.
+`sample_source`, `sec_search_query`, and `sec_search_display_name` are
+provenance fields, not analytical grouping variables.
 
 Year filters default to calendar `filing_date` year because most 10-Ks filed in 2022 discuss fiscal years ending in 2021. Use `--date-basis report` if the study should align by fiscal year-end instead.
 
