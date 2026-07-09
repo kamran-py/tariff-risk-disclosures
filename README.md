@@ -1,11 +1,10 @@
 # Tariff Risk Disclosure Dataset
 
-This repository is an exploratory EDGAR pipeline for collecting 10-K `Item 1A.
-Risk Factors` disclosure from trade-exposed public firms and identifying
-tariff-related language from 2022 through 2025.
+Exploratory EDGAR pipeline for collecting 10-K `Item 1A. Risk Factors` text
+from trade-exposed public firms and identifying tariff-related language, 2022–2025.
 
 For the cleaner balanced report-year panel, see
-`kamran-py/tariff-risk-disclosures-report-year-panel`.
+`kamran-py/tariff-risk-disclosures-v2`.
 
 ## Data Sources
 
@@ -16,16 +15,14 @@ The pipeline uses SEC EDGAR public endpoints:
 - Filing documents from `https://www.sec.gov/Archives/edgar/data/...`
 - SEC full-text search for supplemental 2025 10-K hits: `https://efts.sec.gov/LATEST/search-index`
 
-The pipeline starts from a fixed firm universe and uses the company submissions
-endpoint to enumerate each firm's 10-Ks directly. It can also run a supplemental
-SEC-wide full-text search for 2025 10-Ks that may mention the April 2, 2025
-"Liberation Day" tariff announcement.
+The pipeline enumerates 10-Ks for a fixed firm universe and can supplement them
+with an SEC-wide search for 2025 "Liberation Day" disclosures.
 
 SEC access rules:
 
-- Set a descriptive `User-Agent` with contact information.
-- Keep automated requests at or below 10 requests/second. The script defaults to 8 requests/second.
-- Responses are cached under `data/cache` to avoid repeat downloads.
+- Set a descriptive contact-bearing `User-Agent`.
+- Keep requests at or below 10/second (the default is 8).
+- Responses are cached in `data/cache`.
 
 ## Quick Start
 
@@ -43,40 +40,44 @@ data/risk_factors_2022_2025.csv
 Useful options:
 
 ```powershell
-# Confirm which filings would be selected without downloading the documents.
+# Preview selected filings without downloading documents.
 python scripts/build_tariff_risk_dataset.py --dry-run --output data/dry_run_filings.csv
 
-# Test one or two firms first.
+# Test a small sample.
 python scripts/build_tariff_risk_dataset.py --limit-firms 2 --output data/sample.csv
 
 # Use fiscal report year instead of calendar filing year.
 python scripts/build_tariff_risk_dataset.py --date-basis report --output data/risk_factors_report_year_2022_2025.csv
 
-# Rebuild only the fixed firm universe, without SEC-wide search supplements.
+# Use only the fixed firm universe.
 python scripts/build_tariff_risk_dataset.py --no-include-sec-search
 ```
 
 ## Output
 
-The CSV includes firm metadata, SEC filing metadata, extracted full Item 1A
-text, word and character counts, tariff-term hit counts, matched terms, and
-short tariff-related excerpts. Analyze all rows together as one dataset.
-`sample_source`, `sec_search_query`, and `sec_search_display_name` are
-provenance fields, not analytical grouping variables.
+The CSV includes firm and filing metadata, Item 1A text, counts, matched terms,
+and short excerpts. Analyze all rows as one dataset; `sample_source`,
+`sec_search_query`, and `sec_search_display_name` are provenance fields.
 
-Year filters default to calendar `filing_date` year because most 10-Ks filed in 2022 discuss fiscal years ending in 2021. Use `--date-basis report` if the study should align by fiscal year-end instead.
+Filters default to calendar `filing_date` year. Use `--date-basis report` to align with fiscal year-end.
 
 ## Firm Universe
 
-The seed universe is in `config/trade_exposed_firms.csv` and includes manufacturing, retail, and tech hardware firms such as Caterpillar, Nike, Apple, Deere, Ford, 3M, and Intel. Edit that CSV to change the sample.
+`config/trade_exposed_firms.csv` contains the seed universe of manufacturing,
+retail, and technology-hardware firms. Edit it to change the sample.
 
 ## Tariff Terms
 
-The term list is in `config/tariff_terms.txt`. The script counts exact term matches with word boundaries and stores up to five context excerpts per filing.
+`config/tariff_terms.txt` holds the term list. The script uses word-boundary
+matches and stores up to five excerpts per filing.
 
-The list includes `liberation day` and `liberation day tariff`. The supplemental search queries are in `config/sec_search_queries.txt`; by default they search 2025 10-Ks filed from `2025-01-01` through `2025-12-31`, then keep only filings whose extracted Item 1A text contains one of those exact Liberation Day terms.
+The list includes `liberation day` and `liberation day tariff`. Supplemental
+queries in `config/sec_search_queries.txt` search 2025 10-Ks, retaining only
+filings whose Item 1A text contains one of those terms.
 
-Current SEC-wide supplemental result: one added 2025 10-K row, A-Mark Precious Metals (`AMRK`), filed September 11, 2025. Its Item 1A text matches `liberation day`. Treat this row the same as the other company rows in trend analysis. There were no exact Item 1A matches for `liberation day tariff` under the current exact-term matching rules.
+The current supplemental search adds one 2025 10-K: A-Mark Precious Metals
+(`AMRK`), filed September 11, 2025, matching `liberation day`. No filing
+exactly matches `liberation day tariff`.
 
 ## Tests
 
